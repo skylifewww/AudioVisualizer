@@ -1,75 +1,44 @@
 import { Router } from 'express';
-import * as fs from 'fs';
-import * as path from 'path';
-import { collectFrames } from '../../worker/src/frameCollector';
-import { writeVisualFile } from '../../worker/src/visualEncoder';
-import { DSPProcessor } from '../../worker/src/dsp';
-import { BeatDetector } from '../../worker/src/beat';
+import multer from 'multer';
+import { runPreprocess } from '../../src/index'; // путь к функции preprocess из основного index.ts
+import path from 'path';
+import fs from 'fs';
 
 const router = Router();
+const upload = multer({ dest: 'uploads/' });
 
-// POST /api/generate
-router.post('/generate', async (req, res) => {
+router.post('/analyze', upload.single('audio'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No audio file provided' });
+  }
+
+  const filePath = req.file.path;
+  const outputFileName = filePath.replace(/\.[^/.]+$/, '') + '.visual';
+  const outputMetaName = outputFileName + '.meta.json';
+
   try {
-    const { trackId, filePath } = req.body;
+    // Вызов обработки
+    await runPreprocess(filePath);
 
-    if (!trackId || !filePath) {
-      return res.status(400).json({ error: 'Missing trackId or filePath' });
+    // Проверяем, существует ли файл
+    if (!fs.existsSync(outputFileName)) {
+      return res.status(500).json({ error: 'Failed to generate visual file' });
     }
-
-    // Check if visual file already exists
-    const visualPath = filePath.replace(/\.[^/.]+$/, '') + '.visual';
-    
-    if (fs.existsSync(visualPath)) {
-      return res.json({
-        status: 'ready',
-        url: `/visual/${trackId}`
-      });
-    }
-
-    // Process audio file
-    const dsp = new DSPProcessor();
-    const beatDetector = new BeatDetector({
-      threshold: 1.3,
-      minInterval: 0.1,
-      decayRate: 0.98
-    });
-
-    await dsp.loadAudioFile(filePath);
-    const collectedData = collectFrames(dsp, beatDetector);
-    
-    // Generate visual file
-    writeVisualFile(visualPath, collectedData.fps, collectedData.durationMs, collectedData.frames);
 
     res.json({
-      status: 'ready',
-      url: `/visual/${trackId}`
+      status: 'success',
+      visualUrl: `/files/${path.basename(outputFileName)}`,
+      metaUrl: `/files/${path.basename(outputMetaName)}`,
+      fileName: path.basename(outputFileName)
     });
-
   } catch (error) {
-    console.error('Generate error:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// GET /api/visual/:trackId
-router.get('/visual/:trackId', (req, res) => {
-  try {
-    const { trackId } = req.params;
-    
-    // For now, assume files are stored with trackId as filename
-    const visualPath = path.join(process.cwd(), 'visuals', `${trackId}.visual`);
-    
-    if (!fs.existsSync(visualPath)) {
-      return res.status(404).json({ error: 'Visual file not found' });
+    console.error('Error during preprocessing:', error);
+    res.status(500).json({ error: 'Internal server error during preprocessing' });
+  } finally {
+    // Удаляем временный файл
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
     }
-
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.sendFile(visualPath);
-
-  } catch (error) {
-    console.error('Visual serve error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

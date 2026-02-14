@@ -180,3 +180,4 @@ if (require.main === module) {
 }
 
 export { AudioVisualizer };
+export { runPreprocess };
