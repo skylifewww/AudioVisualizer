@@ -1,0 +1,19 @@
+{
+  "name": "visualizer-worker",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "preprocess": "ts-node src/index.ts preprocess",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "audio-decode": "^0.2.1",
+    "fft-js": "^0.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  }
+}
