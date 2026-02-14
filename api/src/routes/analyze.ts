@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { runPreprocess } from '../../src/index'; // путь к функции preprocess из основного index.ts
 import path from 'path';
 import fs from 'fs';
+import { AnalyzerService } from '../../services/AnalyzerService';
 
 const router = Router();
 const upload = multer({ dest: 'uploads/' });
@@ -13,29 +13,25 @@ router.post('/analyze', upload.single('audio'), async (req, res) => {
   }
 
   const filePath = req.file.path;
-  const outputFileName = filePath.replace(/\.[^/.]+$/, '') + '.visual';
-  const outputMetaName = outputFileName + '.meta.json';
+  const analyzer = new AnalyzerService();
 
   try {
-    // Вызов обработки
-    await runPreprocess(filePath);
+    const result = await analyzer.analyzeAudio(filePath);
 
-    // Проверяем, существует ли файл
-    if (!fs.existsSync(outputFileName)) {
-      return res.status(500).json({ error: 'Failed to generate visual file' });
+    if (result.success) {
+      res.json({
+        status: 'success',
+        visualUrl: result.visualUrl,
+        metaUrl: result.metaUrl
+      });
+    } else {
+      res.status(500).json({ error: result.error });
     }
-
-    res.json({
-      status: 'success',
-      visualUrl: `/files/${path.basename(outputFileName)}`,
-      metaUrl: `/files/${path.basename(outputMetaName)}`,
-      fileName: path.basename(outputFileName)
-    });
   } catch (error) {
     console.error('Error during preprocessing:', error);
     res.status(500).json({ error: 'Internal server error during preprocessing' });
   } finally {
-    // Удаляем временный файл
+    // Clean up uploaded file
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
