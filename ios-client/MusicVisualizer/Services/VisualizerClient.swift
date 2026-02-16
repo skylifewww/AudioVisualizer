@@ -1,7 +1,11 @@
 import Foundation
+import Combine
 import Network
 
+
 class VisualizerClient: ObservableObject {
+    let objectWillChange = ObservableObjectPublisher()
+    
     private let baseURL = "http://localhost:3000"
     private let udpConnection: NWConnection?
 
@@ -42,3 +46,4 @@ class VisualizerClient: ObservableObject {
         connection.cancel()
     }
 }
+

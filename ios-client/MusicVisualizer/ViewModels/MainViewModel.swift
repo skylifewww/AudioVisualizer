@@ -1,5 +1,7 @@
 import Foundation
 import AVFoundation
+import SwiftUI
+import Combine
 
 class MainViewModel: ObservableObject {
     @Published var player: AVAudioPlayer?
