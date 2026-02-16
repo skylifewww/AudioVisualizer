@@ -1,0 +1,61 @@
+{
+  "": {
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/master.swiftdeps"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/App/MusicVisualizerApp.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MusicVisualizerApp.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MusicVisualizerApp.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MusicVisualizerApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MusicVisualizerApp.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MusicVisualizerApp.dia"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Models/VisualData.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualData.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualData.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualData~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualData.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualData.dia"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Renderers/ColumnRenderer.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/ColumnRenderer.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/ColumnRenderer.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/ColumnRenderer~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/ColumnRenderer.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/ColumnRenderer.dia"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Services/VisualizerClient.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizerClient.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizerClient.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizerClient~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizerClient.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizerClient.dia"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/ViewModels/MainViewModel.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainViewModel.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainViewModel.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainViewModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainViewModel.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainViewModel.dia"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/MainView.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainView.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainView.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainView~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainView.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainView.dia"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationView.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationView.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationView.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationView~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationView.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationView.dia"
+  },
+  "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationViewController.swift": {
+    "dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationViewController.d",
+    "object": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationViewController.swift.o",
+    "swiftmodule": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationViewController~partial.swiftmodule",
+    "swift-dependencies": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationViewController.swiftdeps",
+    "diagnostics": "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationViewController.dia"
+  }
+}

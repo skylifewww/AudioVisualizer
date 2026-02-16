@@ -1,0 +1,326 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.MusicVisualizerCore-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/sources",
+      "importPath" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/App/MusicVisualizerApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Models/VisualData.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Renderers/ColumnRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Services/VisualizerClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/ViewModels/MainViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/MainView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationViewController.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "MusicVisualizerCore",
+      "moduleOutputPath" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/Modules/MusicVisualizerCore.swiftmodule",
+      "objects" : [
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MusicVisualizerApp.swift.o",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualData.swift.o",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/ColumnRenderer.swift.o",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizerClient.swift.o",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainViewModel.swift.o",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/MainView.swift.o",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationView.swift.o",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/VisualizationViewController.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j10",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/include/MusicVisualizerCore-Swift.h",
+        "-swift-version",
+        "5",
+        "-DUSE_METAL",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ios_client"
+      ],
+      "outputFileMapPath" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/Modules/MusicVisualizerCore.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/App/MusicVisualizerApp.swift",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Models/VisualData.swift",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Renderers/ColumnRenderer.swift",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Services/VisualizerClient.swift",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/ViewModels/MainViewModel.swift",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/MainView.swift",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationView.swift",
+        "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationViewController.swift"
+      ],
+      "tempsPath" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "MusicVisualizerCore" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MusicVisualizerCore",
+      "-package-name",
+      "ios_client",
+      "-c",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/App/MusicVisualizerApp.swift",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Models/VisualData.swift",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Renderers/ColumnRenderer.swift",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Services/VisualizerClient.swift",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/ViewModels/MainViewModel.swift",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/MainView.swift",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationView.swift",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationViewController.swift",
+      "-I",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j10",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/include/MusicVisualizerCore-Swift.h",
+      "-swift-version",
+      "5",
+      "-DUSE_METAL",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ios_client",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "MusicVisualizerCore" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/App/MusicVisualizerApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Models/VisualData.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Renderers/ColumnRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Services/VisualizerClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/ViewModels/MainViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/MainView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/Sources/Views/VisualizationViewController.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/MusicVisualizerCore.build/sources"
+    },
+    "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/vladimirnybozhinsky/AudioVisualizer/ios-client/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

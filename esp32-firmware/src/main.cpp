@@ -1,8 +1,9 @@
 #include <WiFi.h>
 #include <WiFiUdp.h>
 #include <FastLED.h>
+#include <ArduinoJson.h>
 
-#define LED_PIN D5
+#define LED_PIN 5
 #define NUM_LEDS 64
 #define MATRIX_WIDTH 8
 #define MATRIX_HEIGHT 8
@@ -14,7 +15,7 @@ const char* password = "YOUR_PASSWORD";
 
 void setup() {
   Serial.begin(115200);
-  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS).setCorrection(TypicalSMD5050);
+  FastLED.addLeds<NEOPIXEL, LED_PIN>(leds, NUM_LEDS);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   FastLED.show();
 
@@ -40,12 +41,12 @@ void loop() {
       return;
     }
 
-    JsonArray bars = doc["bars"].as<JsonArray>();
+    JsonArray bars = doc["bars"];
     bool beat = doc["beat"];
 
     // Map bars to LED matrix
     for (int i = 0; i < MATRIX_WIDTH; i++) {
-      float value = bars[i] > 0 ? bars[i].as<float>() : 0.0f;
+      float value = bars[i];
       int height = (int)(value * MATRIX_HEIGHT);
 
       for (int y = 0; y < MATRIX_HEIGHT; y++) {
