@@ -1,17 +1,8 @@
 import Foundation
-import Combine
 import Network
 
-
-class VisualizerClient: ObservableObject {
-    let objectWillChange = ObservableObjectPublisher()
-    
+class VisualizerClient {
     private let baseURL = "http://localhost:3000"
-    private let udpConnection: NWConnection?
-
-    init() {
-        self.udpConnection = nil
-    }
 
     func downloadVisualFile(for trackID: String) async throws -> Data {
         let url = URL(string: "\(baseURL)/files/\(trackID).visual")!
@@ -19,31 +10,33 @@ class VisualizerClient: ObservableObject {
         return data
     }
 
-    func parseVisualData(_ data: Data) -> VisualData? {
-        // TODO: Implement parsing of binary .visual file
-        // For now, return dummy data
-        let frames = [VisualFrame(bars: Array(repeating: 0.5, count: 32), beat: false)]
-        return VisualData(fps: 60, durationMs: 1000, frames: frames)
-    }
+    func sendUDP(_ bars: [Float], beat: Bool, host: String = "192.168.4.1", port: UInt16 = 7777) {
+        let packet: [String: Any] = [
+            "bars": bars.map { Double($0) },
+            "beat": beat ? 1 : 0,
+            "frame": 0
+        ]
 
-    func sendUDP(to host: String = "192.168.4.1", port: UInt16 = 7777, data: Data) {
-        let connection = NWConnection(
-            host: NWEndpoint.Host(host),
-            port: NWEndpoint.Port(rawValue: port)!,
-            using: .udp
-        )
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: packet, options: [])
+            let connection = NWConnection(
+                host: NWEndpoint.Host(host),
+                port: NWEndpoint.Port(rawValue: port)!,
+                using: .udp
+            )
 
-        connection.start(queue: .global(qos: .utility))
-
-        connection.send(content: data, completion: .contentProcessed { error in
-            if let error = error {
-                print("UDP send error: \(error)")
-            } else {
-                print("UDP packet sent successfully.")
-            }
-        })
-
-        connection.cancel()
+            connection.start(queue: .global(qos: .utility))
+            connection.send(content: jsonData, completion: .contentProcessed { error in
+                if let e = error {
+                    print("UDP send failed: \(e)")
+                } else {
+                    print("UDP sent")
+                }
+            })
+            connection.cancel()
+        } catch {
+            print("UDP error: \(error)")
+        }
     }
 }
 

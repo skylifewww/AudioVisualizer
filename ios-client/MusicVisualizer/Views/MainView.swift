@@ -1,33 +1,49 @@
 import SwiftUI
+// import MediaPlayer
 
 struct MainView: View {
-    @StateObject private var viewModel = MainViewModel()
+    @EnvironmentObject var viewModel: MainViewModel
+    @State private var showingMediaPicker = false
 
     var body: some View {
         NavigationView {
-            VStack {
-                Text("Music Visualizer")
-                    .font(.largeTitle)
-                
+            VStack(spacing: 20) {
+                Text("🎵 Music Visualizer")
+                    .font(.title2)
+                    .bold()
+
                 Button("Load Track") {
                     viewModel.loadTrack()
+                    // showingMediaPicker = true // Commented out to prevent crash
                 }
-                
-                Button("Play & Visualize") {
-                    viewModel.playAndVisualize()
+                .buttonStyle(.borderedProminent)
+
+                HStack(spacing: 20) {
+                    Button("Play & Visualize") {
+                        viewModel.playAndVisualize()
+                    }
+                    .disabled(viewModel.selectedTrack == nil || viewModel.isPlaying)
+                    .buttonStyle(.bordered)
+                    
+                    Button("Stop") {
+                        viewModel.stopPlayback()
+                    }
+                    .disabled(!viewModel.isPlaying)
+                    .buttonStyle(.bordered)
                 }
 
-                NavigationLink(destination: VisualizationView()) {
-                    Text("Show Visualization")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                NavigationLink("Show Visualization") {
+                    VisualizationView()
+                        .environmentObject(viewModel)
                 }
-                
+                .buttonStyle(.bordered)
+
                 Spacer()
             }
             .padding()
+            // .sheet(isPresented: $showingMediaPicker) {
+            //     MediaPickerView(selectedTrack: $viewModel.selectedTrack)
+            // }
         }
     }
 }

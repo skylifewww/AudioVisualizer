@@ -5,6 +5,7 @@ struct MusicVisualizerApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+                .environmentObject(MainViewModel())
         }
     }
 }
