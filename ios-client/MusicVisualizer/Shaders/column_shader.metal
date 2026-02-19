@@ -11,7 +11,8 @@ vertex VertexOut columnVertexShader(
     constant float* amplitudes [[ buffer(1) ]],
     constant int& numBars [[ buffer(2) ]],
     constant int& segments [[ buffer(3) ]],
-    constant float* peaks [[ buffer(4) ]])
+    constant float* peaks [[ buffer(4) ]],
+    constant int& spectrumMode [[ buffer(5) ]])
 {
     uint verticesPerBar = (segments + 1) * 6; // +1 for peak segment
     uint barIndex = vid / verticesPerBar;
@@ -27,12 +28,22 @@ vertex VertexOut columnVertexShader(
     float x = barCenterX - barWidth * 0.4;
 
     bool isPeakSegment = (segmentIndex == segments);
-    float normalizedHeight = isPeakSegment ? peaks[barIndex] : amplitudes[barIndex];
-    float activeSegments = normalizedHeight * float(segments);
+    float amplitude = amplitudes[barIndex];
+    int activeSegments = int(amplitude * float(segments));
+    int peakSegment = int(peaks[barIndex] * float(segments));
 
-    bool segmentOn = !isPeakSegment && (float(segmentIndex) < activeSegments);
+    bool segmentOn = !isPeakSegment && (segmentIndex < activeSegments);
 
-    float yBase = -1.0 + float(segmentIndex) * segmentHeight;
+    float yBase;
+    if (spectrumMode == 1) {
+        // Centered mode
+        float direction = (segmentIndex % 2 == 0) ? 1.0 : -1.0;
+        float offset = float(segmentIndex / 2) * segmentHeight;
+        yBase = direction * offset;
+    } else {
+        // Default bottom-up mode
+        yBase = -1.0 + float(segmentIndex) * segmentHeight;
+    }
 
     float2 pos;
     float w = barWidth * 0.8;
@@ -42,7 +53,7 @@ vertex VertexOut columnVertexShader(
         pos = float2(0.0, -2.0);
     } else if (isPeakSegment) {
         // Render white peak segment at peak height
-        float peakY = -1.0 + peaks[barIndex] * 2.0;
+        float peakY = (spectrumMode == 1) ? peaks[barIndex] : (-1.0 + peaks[barIndex] * 2.0);
         float peakH = segmentHeight * 0.3; // Thin white line
         
         if (triangleVertex == 0) pos = float2(x, peakY);
@@ -62,14 +73,17 @@ vertex VertexOut columnVertexShader(
 
     VertexOut out;
     out.position = float4(pos, 0.0, 1.0);
-    out.uv = float2(isPeakSegment ? 1.0 : 0.0, float(segmentIndex) / float(segments));
+    out.uv = float2(isPeakSegment ? float(peakSegment) : 0.0, float(segmentIndex) / float(segments));
     return out;
 }
 
 fragment half4 columnFragmentShader(VertexOut in [[ stage_in ]],
                                      constant float& beat [[ buffer(0) ]]) {
-    if (in.uv.x > 0.5) {
-        // White peak segment
+    float segmentIndex = in.uv.y * 20.0; // Reconstruct segment index
+    float peakSegment = in.uv.x;
+    
+    if (segmentIndex == peakSegment && peakSegment > 0.5) {
+        // White peak cap
         return half4(1.0, 1.0, 1.0, 1.0);
     }
     
@@ -87,7 +101,7 @@ fragment half4 columnFragmentShader(VertexOut in [[ stage_in ]],
         color = mix(yellow, red, (t - 0.7) / 0.3);
 
     // Add glow boost
-    color += beat * 0.3;
+    color += beat * 0.1;
     color = min(color, float3(1.0));
 
     return half4(half(color.r), half(color.g), half(color.b), 1.0);

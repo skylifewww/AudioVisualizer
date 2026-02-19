@@ -1,5 +1,6 @@
 import UIKit
 import MetalKit
+internal import AVFAudio
 
 class VisualizationViewController: UIViewController {
     var metalView: MTKView!

@@ -1,6 +1,11 @@
 import Metal
 import simd
 
+enum SpectrumMode: Int32 {
+    case bottomUp = 0
+    case centered = 1
+}
+
 class ColumnRenderer {
     let device: MTLDevice
     lazy var pipelineState: MTLRenderPipelineState = {
@@ -34,6 +39,8 @@ class ColumnRenderer {
     let smoothingFactor: Float = 0.25
     var beatIntensity: Float = 0
     var beatBuffer: MTLBuffer?
+    var spectrumMode: SpectrumMode = .bottomUp
+    var modeBuffer: MTLBuffer?
 
     init(device: MTLDevice) {
         self.device = device
@@ -68,20 +75,62 @@ class ColumnRenderer {
         // beat intensity buffer
         var beatValue = beatIntensity
         beatBuffer = device.makeBuffer(bytes: &beatValue, length: MemoryLayout<Float>.stride, options: [])
+        
+        // mode buffer
+        var initialMode = spectrumMode.rawValue
+        modeBuffer = device.makeBuffer(bytes: &initialMode, length: MemoryLayout<Int32>.stride, options: [])
     }
 
     func update(amplitudes: [Float]) {
-        guard let buffer = amplitudeBuffer, amplitudes.count == numBars else { return }
+        guard amplitudes.count > 0 else { return }
         
-        // Apply smoothing
+        // Interpolate input amplitudes to 32 if necessary
+        var interpolatedAmplitudes: [Float]
+        
+        if amplitudes.count == numBars {
+            // Already correct size
+            interpolatedAmplitudes = amplitudes
+        } else if amplitudes.count < numBars {
+            // Interpolate: stretch smaller array to fit numBars
+            interpolatedAmplitudes = Array(repeating: 0.0, count: numBars)
+            let step = Float(numBars) / Float(amplitudes.count)
+            
+            for i in 0..<amplitudes.count {
+                let start = Int(Float(i) * step)
+                let end = min(Int(Float(i + 1) * step), numBars)
+                
+                for j in start..<end {
+                    interpolatedAmplitudes[j] = amplitudes[i]
+                }
+            }
+        } else {
+            // Truncate larger array
+            interpolatedAmplitudes = Array(amplitudes.prefix(numBars))
+        }
+
+        // D) Fix "only min or max" loudness issue
+        // Find max magnitude in current frame
+        let frameMax = interpolatedAmplitudes.max() ?? 1.0
+        let safeMax = max(frameMax, 0.0001)
+        
+        var processedAmplitudes = interpolatedAmplitudes
         for i in 0..<numBars {
-            smoothedAmplitudes[i] += (amplitudes[i] - smoothedAmplitudes[i]) * smoothingFactor
+            // Normalize relative to current frame
+            var normalized = processedAmplitudes[i] / safeMax
+            
+            // Apply gentle curve
+            normalized = pow(normalized, 0.6)
+            
+            processedAmplitudes[i] = max(0.0, min(normalized, 1.0))
         }
         
-        // Compute average amplitude for beat detection
-        let avg = smoothedAmplitudes.reduce(0, +) / Float(numBars)
-        beatIntensity = min(1.0, avg * 2.0)
+        // E) Smoothing
+        for i in 0..<numBars {
+            smoothedAmplitudes[i] += (processedAmplitudes[i] - smoothedAmplitudes[i]) * 0.25
+        }
         
+        // F) Update GPU amplitude buffer using smoothedAmplitudes
+        guard let buffer = amplitudeBuffer else { return }
         memcpy(buffer.contents(), smoothedAmplitudes, MemoryLayout<Float>.stride * smoothedAmplitudes.count)
     }
 
@@ -92,23 +141,45 @@ class ColumnRenderer {
         renderEncoder.setVertexBuffer(numBarsBuffer, offset: 0, index: 2)
         renderEncoder.setVertexBuffer(segmentsBuffer, offset: 0, index: 3)
         
-        // Update peak levels using smoothed amplitudes
+        // Get current amplitudes from buffer
+        var amplitudes = [Float](repeating: 0.0, count: numBars)
+        if let bufferContents = amplitudeBuffer?.contents().assumingMemoryBound(to: Float.self) {
+            for i in 0..<numBars {
+                amplitudes[i] = bufferContents[i]
+            }
+        }
+        
+        // Peak hold logic
         for i in 0..<numBars {
             if smoothedAmplitudes[i] > peakLevels[i] {
                 peakLevels[i] = smoothedAmplitudes[i]
             } else {
-                peakLevels[i] = max(0, peakLevels[i] - peakFallSpeed)
+                peakLevels[i] = max(0.0, peakLevels[i] - peakFallSpeed)
             }
         }
         
         memcpy(peakBuffer?.contents(), peakLevels, MemoryLayout<Float>.stride * numBars)
         renderEncoder.setVertexBuffer(peakBuffer, offset: 0, index: 4)
         
-        // Update beat buffer
-        memcpy(beatBuffer?.contents(), &beatIntensity, MemoryLayout<Float>.stride)
-        renderEncoder.setVertexBuffer(beatBuffer, offset: 0, index: 5)
+        // Beat detection (average amplitude)
+        let avg = smoothedAmplitudes.reduce(0, +) / Float(numBars)
+        beatIntensity = min(1.0, avg * 1.5)
+        
+        var beatValue = beatIntensity
+        memcpy(beatBuffer?.contents(), &beatValue, MemoryLayout<Float>.stride)
+        renderEncoder.setFragmentBuffer(beatBuffer, offset: 0, index: 0)
+        
+        // G) Bind mode buffer every frame before draw
+        var currentMode = spectrumMode.rawValue
+        memcpy(modeBuffer?.contents(), &currentMode, MemoryLayout<Int32>.stride)
+        renderEncoder.setVertexBuffer(modeBuffer, offset: 0, index: 5)
 
         // Draw segmented bars as triangles (including peak segments)
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: numBars * (segments + 1) * 6)
+    }
+    
+    // C) Add Public Toggle Function
+    func toggleSpectrumMode() {
+        spectrumMode = (spectrumMode == .bottomUp) ? .centered : .bottomUp
     }
 }

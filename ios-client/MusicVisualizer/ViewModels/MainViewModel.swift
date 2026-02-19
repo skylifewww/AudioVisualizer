@@ -13,58 +13,67 @@ class MainViewModel: ObservableObject {
     private let visualizerClient = VisualizerClient()
     
     private func parseVisualFile(_ data: Data) -> VisualData? {
-        guard data.count >= 16 else { return nil }
-        
-        let header = data.withUnsafeBytes { bytes in
-            let version = Int(bytes[0])
-            let flags = Int(bytes[1])
-            // Parse FPS as little-endian 16-bit fixed point (8.8 format)
-            let fpsRaw = Int(bytes[4]) | (Int(bytes[5]) << 8)
-            let fps = Float(fpsRaw) / 256.0
-            let frameCount = Int(bytes[8]) | (Int(bytes[9]) << 8) | (Int(bytes[10]) << 16) | (Int(bytes[11]) << 24)
-            let durationMs = Int(bytes[12]) | (Int(bytes[13]) << 8) | (Int(bytes[14]) << 16) | (Int(bytes[15]) << 24)
-            
-            print("Header: version=\(version), fps=\(fps), frames=\(frameCount), duration=\(durationMs)")
-            
-            return (version, flags, fps, frameCount, durationMs)
+        guard data.count >= 20 else { return nil } // Minimum header size: 5 * 4-byte integers
+
+        // Read header using withUnsafeBytes for safety
+        let headerValues = data.withUnsafeBytes { ptr in
+            let version = ptr.load(fromByteOffset: 0, as: UInt32.self).littleEndian
+            let isCompact = ptr.load(fromByteOffset: 4, as: UInt32.self).littleEndian != 0
+            let fps = Float(ptr.load(fromByteOffset: 8, as: UInt32.self).littleEndian)
+            let totalFrames = Int(ptr.load(fromByteOffset: 12, as: UInt32.self).littleEndian)
+            let durationMs = Int(ptr.load(fromByteOffset: 16, as: UInt32.self).littleEndian)
+            return (version, isCompact, fps, totalFrames, durationMs)
         }
-        
-        let (version, flags, fps, frameCount, durationMs) = header
-        let isCompact = (flags & 0x01) != 0
-        let frameSize = isCompact ? 33 : 133 // uint8 vs float32
-        
-        guard data.count >= 16 + (frameCount * frameSize) else { return nil }
-        
+
+        let (version, isCompact, fps, totalFrames, durationMs) = headerValues
+
+        print("Header: version=\(version), isCompact=\(isCompact), fps=\(fps), frames=\(totalFrames), duration=\(durationMs)")
+
+        let frameSize = isCompact ? 33 : 129 // 32 bars + 1 beat
+        let expectedDataSize = totalFrames * frameSize
+        guard data.count >= 20 + expectedDataSize else {
+            print("Data size mismatch: expected \(20 + expectedDataSize), got \(data.count)")
+            return nil
+        }
+
+        let frameData = data.subdata(in: 20..<(20 + expectedDataSize))
         var frames: [VisualFrame] = []
-        let frameData = data.subdata(in: 16..<data.count)
-        
-        for i in 0..<frameCount {
+
+        for i in 0..<totalFrames {
             let offset = i * frameSize
-            let frameBytes = Array(frameData[offset..<min(offset + frameSize, frameData.count)])
-            
+            let frameSlice = frameData.subdata(in: offset..<(offset + frameSize))
+
+            // Safely read beat flag using withUnsafeBytes
+            let beat = frameSlice.withUnsafeBytes { ptr in
+                ptr.load(fromByteOffset: isCompact ? 32 : 128, as: UInt8.self) != 0
+            }
+
+            // Safely read bars
+            let bars: [Float]
             if isCompact {
-                // uint8 bars (0-255)
-                let bars = frameBytes.map { Float($0) / 255.0 }
-                let beat = frameBytes.count > 32 ? frameBytes[32] != 0 : false
-                frames.append(VisualFrame(bars: bars, beat: beat))
+                bars = frameSlice.withUnsafeBytes { ptr in
+                    let uint8Ptr = ptr.bindMemory(to: UInt8.self).baseAddress!
+                    return (0..<32).map { Float(uint8Ptr[$0]) / 255.0 }
+                }
             } else {
-                // float32 bars
-                var floatBars: [Float] = []
-                for j in 0..<32 {
-                    let floatOffset = j * 4
-                    if floatOffset + 4 <= frameBytes.count {
-                        let floatBytes = frameBytes[floatOffset..<floatOffset+4]
-                        let value = floatBytes.withUnsafeBytes { bytes in
-                            return Float(bitPattern: UInt32(bytes[0]) | (UInt32(bytes[1]) << 8) | (UInt32(bytes[2]) << 16) | (UInt32(bytes[3]) << 24))
-                        }
-                        floatBars.append(value)
+                bars = frameSlice.withUnsafeBytes { ptr in
+                    let uint8Ptr = ptr.bindMemory(to: UInt8.self).baseAddress!
+                    return stride(from: 0, to: 128, by: 4).map { offset in
+                        let uint32Value = UInt32(littleEndian: uint8Ptr.withMemoryRebound(to: UInt32.self, capacity: 1) { $0.advanced(by: offset / 4).pointee })
+                        return Float(bitPattern: uint32Value)
                     }
                 }
-                let beat = frameBytes.count > 128 ? frameBytes[128] != 0 : false
-                frames.append(VisualFrame(bars: floatBars, beat: beat))
             }
+
+            // Optional: Log first frame's bars for debugging
+            if i == 0 {
+                print("Frame \(i) size: \(frameSlice.count), expected: \(isCompact ? 33 : 129)")
+                print("First frame bars (first 10): \(Array(bars.prefix(10)))")
+            }
+
+            frames.append(VisualFrame(bars: bars, beat: beat))
         }
-        
+
         return VisualData(fps: Int(fps), durationMs: durationMs, frames: frames)
     }
 
